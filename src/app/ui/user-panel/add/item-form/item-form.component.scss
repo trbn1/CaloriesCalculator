@@ -1,0 +1,30 @@
+.row {
+  padding: 10px;
+  margin: 0 auto;
+}
+.row .form-control {
+
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.btn {
+  max-width: 200px;
+  margin: 8px auto;
+}
+
+.control-label.required:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 2px;
+  top:0px;
+}
+
+img {
+  width: 250px
+}

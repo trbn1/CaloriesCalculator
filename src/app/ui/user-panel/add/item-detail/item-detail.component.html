@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">Zdjęcie</th>
+          <th class="text-center">Nazwa</th>
+          <th class="text-center">Waga [g]</th>
+          <th class="text-center">Energia [kcal]</th>
+          <th class="text-center">Białko [g]</th>
+          <th class="text-center">Tłuszcz [g]</th>
+          <th class="text-center">Węglowodany [g]</th>
+          <th class="text-center">Błonnik [g]</th>
+          <th class="text-center">Wybierz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td>{{ item.photo || 'b/d' }}</td>
+        <td>{{ item.name || 'b/d' }}</td>
+        <td>{{ item.quantity || 'b/d' }}</td>
+        <td>{{ item.energy || 'b/d' }}</td>
+        <td>{{ item.protein || 'b/d' }}</td>
+        <td>{{ item.fat || 'b/d' }}</td>
+        <td>{{ item.carb || 'b/d' }}</td>
+        <td>{{ item.fiber || 'b/d' }}</td>
+        <td><button class="btn btn-primary btn-block" (click)='deleteItem()'>X</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

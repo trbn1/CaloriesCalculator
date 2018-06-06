@@ -1,0 +1,72 @@
+<h2>PANEL</h2>
+<hr>
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-8">
+    <p class="text-center"><strong>Dodawanie produktów</strong></p>
+    <div class="row">
+      <div class="col-sm">
+        <label for="cat" class="control-label required">Kategoria</label>
+        <select type="cat" id="cat" class="form-control" title="Kategoria" [(ngModel)]="item.cat" #cat='ngModel' required>
+          <option [ngValue]="undefined" selected disabled hidden>Wybierz</option>
+          <option *ngFor="let cat of cats" [ngValue]="cat">{{cat.name}}</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <label for="name" class="control-label required">Nazwa produtku</label>
+        <input type="name" id="name" class="form-control" placeholder="Nazwa" [(ngModel)]="item.name" #name='ngModel' required>
+      </div>
+      <div class="col-sm">
+        <label for="quantity" class="control-label required">Waga [g]</label>
+        <input type="quantity" id="quantity" class="form-control" placeholder="0" [(ngModel)]="item.quantity" #quantity='ngModel' required>
+      </div>
+      <div class="col-sm">
+        <label for="energy" class="control-label required">Energia [kcal]</label>
+        <input type="energy" id="energy" class="form-control" placeholder="0" [(ngModel)]="item.energy" #energy='ngModel' required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <label for="protein" class="control-label required">Białko [g]</label>
+        <input type="protein" id="protein" class="form-control" placeholder="0" [(ngModel)]="item.protein" #protein='ngModel' required>
+      </div>
+      <div class="col-sm">
+        <label for="fat" class="control-label required">Tłuszcz [g]</label>
+        <input type="fat" id="fat" class="form-control" placeholder="0" [(ngModel)]="item.fat" #fat='ngModel' required>
+      </div>
+      <div class="col-sm">
+        <label for="carb" class="control-label required">Węglowodany [g]</label>
+        <input type="carb" id="carb" class="form-control" placeholder="0" [(ngModel)]="item.carb" #carb='ngModel' required>
+      </div>
+      <div class="col-sm">
+        <label for="fiber" class="control-label required">Błonnik [g]</label>
+        <input type="fiber" id="fiber" class="form-control" placeholder="0" [(ngModel)]="item.fiber" #fiber='ngModel' required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm custom-file">
+        <label for="photo" class="custom-file-label">Wybierz plik...</label>
+        <input type="file" id="photo" class="custom-file-input" (change)="startUpload($event.target.files)">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm" *ngIf="percentage | async as pct">
+        <ngb-progressbar type="info" [value]="pct" height="30px" [max]="100">{{ pct | number }}%</ngb-progressbar>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <div *ngIf="(snapshot | async) as snap">
+          <div *ngIf="downloadURL | async as url">
+            <img [src]="url">
+            <input type="photoUrl" id="photoUrl" class="form-control" [value]="url" (ngModel)="item.photoUrl" #photoUrl='ngModel' required>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm">
+      <button class="btn btn-primary btn-block" type="submit" (click)='addProductData(photoUrl)'>Dodaj</button>
+    </div>
+  </div>
+</div>

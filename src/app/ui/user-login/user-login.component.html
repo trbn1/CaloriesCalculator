@@ -1,0 +1,9 @@
+<div *ngIf="!(auth.user | async); else alreadyLoggedIn">
+    <user-form></user-form>
+</div>
+
+<ng-template #alreadyLoggedIn>
+  <div class="text-center">
+      <h4><p class="font-weight-bold text-success">Zalogowano pomyślnie</p></h4>
+  </div>
+</ng-template>
