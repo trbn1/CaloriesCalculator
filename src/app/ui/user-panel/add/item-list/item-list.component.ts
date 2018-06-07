@@ -17,16 +17,12 @@ export class ItemsListComponent implements OnInit {
   showSpinner = true;
 
   constructor(private itemService: ItemService) {
-    this.items = this.itemService.getItemsList();
+    this.items = this.itemService.getItemsList$();
   }
 
   ngOnInit() {
     this.items.subscribe((x) => {
       this.showSpinner = false;
     });
-  }
-
-  deleteItems() {
-    this.itemService.deleteAll();
   }
 }

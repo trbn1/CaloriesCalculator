@@ -14,8 +14,4 @@ export class ItemDetailComponent {
 
   constructor(private itemSvc: ItemService) { }
 
-  deleteItem() {
-    this.itemSvc.deleteItem(this.item.pid);
-  }
-
 }

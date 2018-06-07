@@ -59,14 +59,13 @@
         <div *ngIf="(snapshot | async) as snap">
           <div *ngIf="downloadURL | async as url">
             <img [src]="url">
-            <input type="photoUrl" id="photoUrl" class="form-control" [value]="url" (ngModel)="item.photoUrl" #photoUrl='ngModel' required>
           </div>
           <hr>
         </div>
       </div>
     </div>
     <div class="col-sm">
-      <button class="btn btn-primary btn-block" type="submit" (click)='addProductData(photoUrl)'>Dodaj</button>
+      <button class="btn btn-primary btn-block" type="submit" (click)='addProductData()'>Dodaj</button>
     </div>
   </div>
 </div>

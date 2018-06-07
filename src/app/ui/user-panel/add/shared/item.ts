@@ -1,5 +1,4 @@
 export class Item {
-  $key!: string;
   pid!: string;
   cat!: number;
   name!: string;
@@ -10,6 +9,6 @@ export class Item {
   carb!: number;
   fiber!: number;
   photo!: string;
-  photoUrl!: string;
+  photoUrl!: any;
   timestamp!: number;
 }

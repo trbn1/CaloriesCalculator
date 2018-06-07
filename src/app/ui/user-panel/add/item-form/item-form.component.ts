@@ -43,31 +43,32 @@ export class ItemFormComponent {
       { name: 'Warzywa', value: 8 },
       { name: 'Słodycze', value: 9 },
     ];
-    addProductData(photoUrl: string) {
-      console.log('photoUrl value: ' + photoUrl);
+    addProductData() {
+      if (this.item.timestamp === undefined) {
+        this.item.timestamp = Date.now();
+        this.item.pid = this.afs.createId();
+        this.item.photo = 'photos/default';
+      }
       this.itemSvc.addProductData(this.item);
       this.item = new Item(); // reset item
       // window.location.reload();
     }
 
     startUpload(event: FileList) {
-      // The File object
+      this.item.timestamp = Date.now();
+      this.item.pid = this.afs.createId();
+      const path = `photos/${this.item.pid}`;
+      this.item.photo = path;
+
       const file = event.item(0);
 
-      // Client-side validation example
       if (file.type.split('/')[0] !== 'image') {
         console.error('Zły format pliku :(');
         return;
       }
-      this.item.pid = this.afs.createId();
-      this.item.timestamp = Date.now();
-      // The storage path
-      const path = `photos/${this.item.pid}`;
-      this.item.photo = path;
-      // The main task
+
       this.task = this.storage.upload(path, file, undefined);
 
-      // Progress monitoring
       this.percentage = this.task.percentageChanges();
       this.snapshot = this.task.snapshotChanges().pipe(
         tap((snap: any) => {
@@ -76,14 +77,10 @@ export class ItemFormComponent {
             // this.afs.collection('products').add({ path, size: snap.totalBytes });
           }
         }),
-        finalize(() => {
-          this.downloadURL = this.storage.ref(path).getDownloadURL();
-          this.downloadURL.subscribe(this.downloadURL => this.item.photoUrl = this.downloadURL);
-        })
+        finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL())
       );
     }
 
-    // Determines if the upload task is active
     isActive(snapshot: any) {
       return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes;
     }

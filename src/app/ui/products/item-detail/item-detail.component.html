@@ -25,7 +25,7 @@
         <td>{{ item.fat || 'b/d' }}</td>
         <td>{{ item.carb || 'b/d' }}</td>
         <td>{{ item.fiber || 'b/d' }}</td>
-        <td>{{ downloadURL | async }}</td>
+        <td><div *ngIf="item.photoUrl | async as url"><img [src]="url"></div></td>
         <td><button class="btn btn-primary btn-block" data-toggle="modal" data-target="#save">X</button></td>
         </tr>
       </tbody>

@@ -1,5 +1,4 @@
 export class Item {
-  $key!: string;
   pid!: string;
   cat!: number;
   name!: string;
@@ -15,6 +14,5 @@ export class Item {
 }
 
 export class Save {
-  $key!: string;
-  timestamp!: number;
+  pid!: string;
 }

@@ -13,7 +13,7 @@ import { ItemService } from '../shared/item.service';
 export class ItemCalcComponent {
 
   @Input()
-  timestamp!: number;
+  pid!: string;
 
   private basePath = '/products';
 
@@ -32,7 +32,7 @@ export class ItemCalcComponent {
       }
 
       saveItem() {
-        this.save.timestamp = this.timestamp;
+        this.save.pid = this.pid;
         this.saveItem2(this.save);
         this.save = new Save(); // reset item
       }
