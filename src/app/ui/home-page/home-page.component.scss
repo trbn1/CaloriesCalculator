@@ -1,0 +1,13 @@
+.container {
+  max-width: 1152px;
+}
+
+.tile .box {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.button {
+  font-weight: bold;
+}

@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../core/auth.service';
 
@@ -9,8 +7,11 @@ import { AuthService } from '../../core/auth.service';
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.scss'],
 })
-export class UserLoginComponent {
+export class UserLoginComponent implements OnInit {
 
-  constructor(public auth: AuthService,
-              private router: Router) { }
+  constructor(public auth: AuthService) { }
+
+  ngOnInit() {
+  }
+
 }

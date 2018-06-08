@@ -1,0 +1,53 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" routerLink="/">
+      <i class="fa fa-utensils"></i>
+      <strong>CalCalc</strong>
+    </a>
+
+    <a role="button" class="navbar-burger" (click)="toggleCollapse()" [ngClass]="{'is-active': show}">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu" [ngClass]="{'is-active': show}">
+    <div class="navbar-start">
+      <a class="nav-item nav-link nav-red" routerLink="/products">
+        PRODUKTY
+      </a>
+      <a class="nav-item nav-link" routerLink="/about">
+        O STRONIE
+      </a>
+      <a class="nav-item nav-link" routerLink="/contact">
+        KONTAKT
+      </a>
+    </div>
+    <div class="navbar-end">
+      <div *ngIf="auth.user | async; else guest">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            PANEL UŻYTKOWNIKA
+          </a>
+
+          <div class="navbar-dropdown">
+            <a routerLink="user-panel/add" class="navbar-item">
+              Dodawanie produktów
+            </a>
+            <a class="navbar-item" (click)="logout()">
+              Wyloguj
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<ng-template #guest>
+  <a class="nav-item nav-link" routerLink="/login">
+    LOGOWANIE / REJESTRACJA
+  </a>
+</ng-template>

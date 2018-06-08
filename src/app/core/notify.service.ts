@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 /// Notify users about errors and other helpful stuff
 export interface Msg {
@@ -18,6 +18,7 @@ export class NotifyService {
   update(content: string, style: 'error' | 'info' | 'success') {
     const msg: Msg = { content, style };
     this._msgSource.next(msg);
+    setTimeout(() => this.clear(), 5000);
   }
 
   clear() {

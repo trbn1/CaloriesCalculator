@@ -1,21 +1,26 @@
-.btn {
-  height: 30px;
-  width: 30px;
-  padding: 2px;
-  font-weight: bold;
-}
-
-.img-fluid {
-  display: block;
-  height: 200px;
+.container {
+  max-width: 960px;
 }
 
 .table {
-  table-layout:fixed;
+  width: 280px;
+  max-height: 440px;
+  line-height: 1;
 }
 
-.table td.text {
+td {
+  max-width: 140px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+th {
+  max-width: 140px;
+  white-space: nowrap;
+}
+
+img {
+  width: 280px;
+  height: 173px;
 }

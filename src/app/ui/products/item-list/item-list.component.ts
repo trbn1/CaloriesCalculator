@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ItemService } from '../shared/item.service';
+import { Observable } from 'rxjs';
 
-import { Item } from '../shared/item';
+import { ItemService } from '../item.service';
 
-import { Observable } from 'rxjs/Observable';
+import { Item } from '../item';
 
 @Component({
   selector: 'item-list',
   templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.scss'],
+  styleUrls: ['./item-list.component.scss']
 })
-export class CalculatorComponent implements OnInit {
+export class ItemListComponent implements OnInit {
 
   items: Observable<Item[]>;
   showSpinner = true;
@@ -25,5 +25,4 @@ export class CalculatorComponent implements OnInit {
       this.showSpinner = false;
     });
   }
-
 }

@@ -1,93 +1,150 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from 'angularfire2/storage';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 import { tap, finalize } from 'rxjs/operators';
 
-import { AuthService } from '../../../../core/auth.service';
-import { Item } from '../shared/item';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { AngularFireAuth } from 'angularfire2/auth';
 
-import { ItemService } from '../shared/item.service';
+import { auth } from 'firebase/app';
+
+import { ItemService } from '../../../products/item.service';
+import { NotifyService } from '../../../../core/notify.service';
+
+import { Item } from '../../../products/item';
 
 @Component({
   selector: 'item-form',
   templateUrl: './item-form.component.html',
-  styleUrls: ['./item-form.component.scss'],
+  styleUrls: ['./item-form.component.scss']
 })
-export class ItemFormComponent {
+export class ItemFormComponent implements OnInit {
 
   item: Item = new Item();
-  downloadURL!: Observable<string>;
-  // Main task
-  task!: AngularFireUploadTask;
-
-  // Progress monitoring
-  percentage!: Observable<number | undefined>;
-
-  snapshot!: Observable<any>;
+  task: AngularFireUploadTask;
+  percentage: Observable<number>;
+  snapshot: Observable<any>;
+  downloadURL: Observable<string>;
+  fileName = 'Wybierz plik...';
+  submitted = false;
 
   constructor(
-    private itemSvc: ItemService,
+    private itemService: ItemService,
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
-    ) { }
+    private notify: NotifyService,
+    public afAuth: AngularFireAuth
+  ) { }
 
-    cats = [
-      { name: 'Fastfood', value: 1 },
-      { name: 'Kasze, makarony, zboża', value: 2 },
-      { name: 'Mięso', value: 3 },
-      { name: 'Nabiał i jaja', value: 4 },
-      { name: 'Napoje', value: 5 },
-      { name: 'Owoce', value: 6 },
-      { name: 'Pieczywo', value: 7 },
-      { name: 'Warzywa', value: 8 },
-      { name: 'Słodycze', value: 9 },
-    ];
+  cats = [
+    { name: 'Fastfood', value: 1 },
+    { name: 'Kasze, makarony, zboża', value: 2 },
+    { name: 'Mięso', value: 3 },
+    { name: 'Nabiał i jaja', value: 4 },
+    { name: 'Napoje', value: 5 },
+    { name: 'Owoce', value: 6 },
+    { name: 'Pieczywo', value: 7 },
+    { name: 'Warzywa', value: 8 },
+    { name: 'Słodycze', value: 9 },
+  ];
 
-    addProductData() {
-      if (this.item.timestamp === undefined) {
-        this.item.timestamp = Date.now();
-        this.item.pid = this.afs.createId();
-        this.item.photo = 'photos/default';
-      }
-      this.itemSvc.addProductData(this.item);
-      // reset view
-      this.item = new Item();
-      this.downloadURL = new Observable<string>();
-      this.percentage = new Observable<number | undefined>();
-      this.snapshot = new Observable<any>();
+  reset() {
+    this.submitted = false;
+    this.item = new Item();
+    this.downloadURL = new Observable<string>();
+    this.percentage = new Observable<number | undefined>();
+    this.snapshot = new Observable<any>();
+    this.fileName = 'Wybierz plik...';
+  }
+
+  setFileName(event) {
+    this.fileName = event.target.files[0].name;
+  }
+
+  setSubmitted() {
+    this.submitted = true;
+  }
+
+  addProductData() {
+    if (this.item.cat === undefined || this.item.name === undefined || this.item.quantity === undefined || this.item.energy === undefined) {
+      return;
+    }
+    if (this.item.timestamp === undefined) {
+      this.getProductAdditionData();
+    }
+    this.inputDataIfDoesntExist();
+    this.itemService.addProductData(this.item);
+    this.notify.update('Pomyślnie dodano produkt', 'success');
+
+    // reset view
+    this.reset();
+  }
+
+  startUpload(event: FileList) {
+    this.getProductAdditionData();
+    const path = `photos/${this.item.pid}`;
+    this.item.photo = path;
+
+    const file = event.item(0);
+
+    if (file.type.split('/')[0] !== 'image') {
+      this.notify.update('Zły format pliku', 'error');
+      return;
     }
 
-    startUpload(event: FileList) {
-      this.item.timestamp = Date.now();
-      this.item.pid = this.afs.createId();
-      const path = `photos/${this.item.pid}`;
-      this.item.photo = path;
+    this.task = this.storage.upload(path, file, undefined);
 
-      const file = event.item(0);
+    this.percentage = this.task.percentageChanges();
+    this.snapshot = this.task.snapshotChanges().pipe(
+      tap((snap) => {
+        if (snap.bytesTransferred === snap.totalBytes) {
+          // Update firestore on completion
+          // this.afs.collection('products').add({ path, size: snap.totalBytes });
+        }
+      }),
+      finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL())
+    );
+  }
 
-      if (file.type.split('/')[0] !== 'image') {
-        console.error('Zły format pliku :(');
-        return;
-      }
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes;
+  }
 
-      this.task = this.storage.upload(path, file, undefined);
+  getProductAdditionData() {
+    this.item.uid = this.getUserID();
+    this.item.timestamp = Date.now();
+    this.item.pid = this.afs.createId();
+    this.item.photo = 'photos/default';
+    const array = ['protein', 'fat', 'carb', 'fiber'];
+  }
 
-      this.percentage = this.task.percentageChanges();
-      this.snapshot = this.task.snapshotChanges().pipe(
-        tap((snap: any) => {
-          if (snap.bytesTransferred === snap.totalBytes) {
-            // Update firestore on completion
-            // this.afs.collection('products').add({ path, size: snap.totalBytes });
-          }
-        }),
-        finalize(() => this.downloadURL = this.storage.ref(path).getDownloadURL())
-      );
+  inputDataIfDoesntExist() {
+    if (this.item.protein === undefined) {
+      this.item.protein = 'b/d';
     }
-
-    isActive(snapshot: any) {
-      return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes;
+    if (this.item.fat === undefined) {
+      this.item.fat = 'b/d';
     }
+    if (this.item.carb === undefined) {
+      this.item.carb = 'b/d';
+    }
+    if (this.item.fiber === undefined) {
+      this.item.fiber = 'b/d';
+    }
+  }
+
+  getUserID() {
+    const user = this.afAuth.auth.currentUser;
+    let uid: string;
+
+    if (user != null) {
+      uid = user.uid;
+      return uid;
+    }
+  }
+
+  ngOnInit() {
+  }
+
 }

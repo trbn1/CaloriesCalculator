@@ -2,15 +2,18 @@
   <h2>PRODUKTY</h2>
   <hr>
   <br>
-  <p class="text-center"><strong>Lista produktów</strong></p>
+  <p class="has-text-centered">
+    <strong>LISTA PRODUKTÓW</strong>
+  </p>
   <br>
-  <div class="row">
-    <div *ngFor="let item of items | async" class="col-md-4">
-      <item-detail [item]='item'></item-detail>
+  <div class="container is-fluid">
+    <div class="columns is-centered is-multiline">
+      <div *ngFor="let item of items | async" class="column is-centered">
+        <item-detail [item]='item'></item-detail>
+      </div>
     </div>
   </div>
   <loading-spinner *ngIf="showSpinner"></loading-spinner>
   <br>
   <hr>
 </div>
-

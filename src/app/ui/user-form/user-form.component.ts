@@ -13,9 +13,9 @@ type FormErrors = { [u in UserFields]: string };
 })
 export class UserFormComponent implements OnInit {
 
-  userForm!: FormGroup;
+  userForm: FormGroup;
   regEnabled = true;
-  newUser = false; // to toggle login or signup form
+  newUser = true; // to toggle login or signup form
   passReset = false; // set to true when password reset is triggered
   formErrors: FormErrors = {
     'email': '',
@@ -32,7 +32,10 @@ export class UserFormComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder, private auth: AuthService) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -50,6 +53,11 @@ export class UserFormComponent implements OnInit {
     this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']);
   }
 
+  resetPassword() {
+    this.auth.resetPassword(this.userForm.value['email'])
+      .then(() => this.passReset = true);
+  }
+
   buildForm() {
     this.userForm = this.fb.group({
       'email': ['', [
@@ -57,7 +65,6 @@ export class UserFormComponent implements OnInit {
         Validators.email,
       ]],
       'password': ['', [
-        Validators.required,
         Validators.minLength(8),
       ]],
     });
