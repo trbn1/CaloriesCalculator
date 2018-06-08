@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from 'angularfire2/storage';
 import { Observable } from 'rxjs/Observable';
@@ -32,6 +33,7 @@ export class ItemFormComponent {
     private afs: AngularFirestore,
     private storage: AngularFireStorage,
     ) { }
+
     cats = [
       { name: 'Fastfood', value: 1 },
       { name: 'Kasze, makarony, zboża', value: 2 },
@@ -43,6 +45,7 @@ export class ItemFormComponent {
       { name: 'Warzywa', value: 8 },
       { name: 'Słodycze', value: 9 },
     ];
+
     addProductData() {
       if (this.item.timestamp === undefined) {
         this.item.timestamp = Date.now();
@@ -50,8 +53,11 @@ export class ItemFormComponent {
         this.item.photo = 'photos/default';
       }
       this.itemSvc.addProductData(this.item);
-      this.item = new Item(); // reset item
-      // window.location.reload();
+      // reset view
+      this.item = new Item();
+      this.downloadURL = new Observable<string>();
+      this.percentage = new Observable<number | undefined>();
+      this.snapshot = new Observable<any>();
     }
 
     startUpload(event: FileList) {

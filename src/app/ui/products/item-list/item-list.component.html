@@ -1,16 +1,16 @@
 <div class="container">
-    <h2>PRODUKTY</h2>
+  <h2>PRODUKTY</h2>
   <hr>
-<br>
-<p class="text-center"><strong>Lista produktów</strong></p>
-<br>
-
-<div *ngFor="let item of items | async">
-  <item-detail [item]='item'></item-detail>
-</div>
-
-<loading-spinner *ngIf="showSpinner"></loading-spinner>
-<br>
-<hr>
+  <br>
+  <p class="text-center"><strong>Lista produktów</strong></p>
+  <br>
+  <div class="row">
+    <div *ngFor="let item of items | async" class="col-md-4">
+      <item-detail [item]='item'></item-detail>
+    </div>
+  </div>
+  <loading-spinner *ngIf="showSpinner"></loading-spinner>
+  <br>
+  <hr>
 </div>
 
