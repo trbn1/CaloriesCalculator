@@ -15,8 +15,7 @@ export class ItemDetailComponent implements OnInit {
   @Input()
   item: Item;
 
-  @SessionStorage({key: 'savedPids'}) savedPids: Array<string> = [];
-  @SessionStorage({key: 'savedQuants'}) savedQuants: Array<number> = [];
+  @SessionStorage({key: 'saves'}) saves: Array<Item> = [];
 
   isModalActive = false;
   currentQuantity: number;
@@ -49,18 +48,21 @@ export class ItemDetailComponent implements OnInit {
     const numFat = this.currentFat;
     const numCarb = this.currentCarb;
     const numFiber = this.currentFiber;
+    const multiplier = numInputQuantity / numQuantity;
 
-    this.item.energy = (numEnergy * (numInputQuantity / numQuantity));
-    this.item.protein = (numProtein * (numInputQuantity / numQuantity));
-    this.item.fat = (numFat * (numInputQuantity / numQuantity));
-    this.item.carb = (numCarb * (numInputQuantity / numQuantity));
-    this.item.fiber = (numFiber * (numInputQuantity / numQuantity));
+    this.item.energy = (numEnergy * multiplier);
+    this.item.protein = (numProtein * multiplier);
+    this.item.fat = (numFat * multiplier);
+    this.item.carb = (numCarb * multiplier);
+    this.item.fiber = (numFiber * multiplier);
   }
 
   saveItem() {
-    this.savedPids.push(this.item.pid);
-    this.savedQuants.push(this.item.quantity);
-    console.log(this.savedPids + ' & ' + this.savedQuants);
+    if (this.saves === null) {
+      sessionStorage.setItem('ngx_saves', '[]');
+    }
+    this.saves.push(this.item);
+    console.log(this.saves);
   }
 
 }

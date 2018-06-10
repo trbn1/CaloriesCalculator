@@ -36,7 +36,7 @@
           <div class="control column">
             <label for="quantity" class="label">Waga [g]</label>
             <input type="text" id="quantity" class="input is-rounded" placeholder="0" [(ngModel)]="item.quantity" #quantity="ngModel"
-              name="quantity" pattern="^[0-9]+(([,])*[0-9]+)?$" required>
+              name="quantity" pattern="^[0-9]+$" required>
             <div *ngIf="quantity.invalid && submitted" class="help is-danger">
               <div *ngIf="quantity.errors.required">
                 Waga jest wymagana
@@ -142,7 +142,7 @@
         </div>
         <hr>
         <div class="column has-text-centered">
-          <button class="button is-primary is-rounded" type="submit" (click)='setSubmitted()'>Dodaj</button>
+          <button class="button is-primary is-rounded" type="submit" (click)='setSubmitted()' [disabled]="!form.valid">Dodaj</button>
           <button class="button is-primary is-rounded" type="reset" (click)='reset()'>Reset</button>
         </div>
       </form>

@@ -1,1 +1,62 @@
+<button class="button is-primary is-rounded has-text-right" data-toggle="modal" data-target="#add" (click)="toggleModal()">KALKULATOR</button>
 
+<div class="modal" id="add" [ngClass]="{ 'is-active' : isModalActive }">
+  <form #form="ngForm" novalidate>
+    <div class="modal-background" (click)="toggleModal()"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title has-text-left">Kalkulator</p>
+        <button class="delete" aria-label="close" (click)="toggleModal()"></button>
+      </header>
+      <section class="modal-card-body">
+        <table class="table is-striped is-bordered is-hoverable modal-table">
+          <thead>
+            <tr>
+              <th>Nazwa</th>
+              <th>Waga [g]</th>
+              <th>Energia [kcal]</th>
+              <th>Białko [g]</th>
+              <th>Tłuszcz [g]</th>
+              <th>Węglowodany [g]</th>
+              <th>Błonnik [g]</th>
+              <th>Usuń</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Suma</th>
+              <th class="has-text-right text">{{ sumQuantity | number: '1.0-1':'pl-PL' }}</th>
+              <th class="has-text-right text">{{ sumEnergy | number: '1.0-1':'pl-PL' }}</th>
+              <th class="has-text-right text">{{ sumProtein | number: '1.0-1':'pl-PL' }}</th>
+              <th class="has-text-right text">{{ sumFat | number: '1.0-1':'pl-PL' }}</th>
+              <th class="has-text-right text">{{ sumCarb | number: '1.0-1':'pl-PL' }}</th>
+              <th class="has-text-right text">{{ sumFiber | number: '1.0-1':'pl-PL' }}</th>
+              <th class="has-text-right text"></th>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr *ngFor="let save of saves">
+              <td class="has-text-left text">{{ save.name }}</td>
+              <td class="has-text-right text">{{ save.quantity | number: '1.0-1':'pl-PL'  }}</td>
+              <td class="has-text-right text">{{ save.energy | number: '1.0-1':'pl-PL' }}</td>
+              <td class="has-text-right text">{{ save.protein | number: '1.0-1':'pl-PL' }}</td>
+              <td class="has-text-right text">{{ save.fat | number: '1.0-1':'pl-PL' }}</td>
+              <td class="has-text-right text">{{ save.carb | number: '1.0-1':'pl-PL' }}</td>
+              <td class="has-text-right text">{{ save.fiber | number: '1.0-1':'pl-PL' }}</td>
+              <td class="has-text-centered text">
+                <button class="button is-small has-text-centered" (click)="removeSave(save)">
+                  <span class="icon is-small">
+                    <i class="far fa-trash-alt"></i>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <footer class="modal-card-foot">
+          <button class="button is-primary is-rounded has-text-right" type="reset" (click)="removeSaves()">Usuń wszystko</button>
+        </footer>
+    </div>
+  </form>
+</div>

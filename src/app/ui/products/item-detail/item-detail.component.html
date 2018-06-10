@@ -20,43 +20,43 @@
 
           <tr>
             <th scope="column" class="has-text-right">Waga [g]</th>
-            <td class="has-text-right text">{{ item.quantity | number: '1.0-1':'pl-PL'  }}</td>
+            <td class="has-text-right text">{{ item.quantity | number: '1.0-1':'pl-PL' }}</td>
           </tr>
 
           <tr>
             <th scope="column" class="has-text-right">Energia [kcal]</th>
-            <td class="has-text-right text">{{ item.energy | number: '1.0-1':'pl-PL'  }}</td>
+            <td class="has-text-right text">{{ item.energy | number: '1.0-1':'pl-PL' }}</td>
           </tr>
 
           <tr>
             <th scope="column" class="has-text-right">Białko [g]</th>
-            <td class="has-text-right text">{{ item.protein | number: '1.0-1':'pl-PL'  }}</td>
+            <td class="has-text-right text">{{ item.protein | number: '1.0-1':'pl-PL' }}</td>
           </tr>
 
           <tr>
             <th scope="column" class="has-text-right">Tłuszcz [g]</th>
-            <td class="has-text-right text">{{ item.fat | number: '1.0-1':'pl-PL'  }}</td>
+            <td class="has-text-right text">{{ item.fat | number: '1.0-1':'pl-PL' }}</td>
           </tr>
 
           <tr>
             <th scope="column" class="has-text-right">Węglowodany [g]</th>
-            <td class="has-text-right text">{{ item.carb | number: '1.0-1':'pl-PL'  }}</td>
+            <td class="has-text-right text">{{ item.carb | number: '1.0-1':'pl-PL' }}</td>
           </tr>
 
           <tr>
             <th scope="column" class="has-text-right">Błonnik [g]</th>
-            <td class="has-text-right text">{{ item.fiber | number: '1.0-1':'pl-PL'  }}</td>
+            <td class="has-text-right text">{{ item.fiber | number: '1.0-1':'pl-PL' }}</td>
           </tr>
         </tbody>
       </table>
     </tr>
     <tr class="has-text-centered">
-      <button class="button is-primary is-rounded has-text-right" data-toggle="modal" data-target="#calc" (click)="toggleModal()">Dodaj</button>
+      <button class="button is-primary is-rounded has-text-right" data-toggle="modal" data-target="#add" (click)="toggleModal()">Dodaj</button>
     </tr>
   </tbody>
 </table>
 
-<div class="modal" id="calc" [ngClass]="{ 'is-active' : isModalActive }">
+<div class="modal" id="add" [ngClass]="{ 'is-active' : isModalActive }">
   <form #form="ngForm" (ngSubmit)="saveItem()" novalidate>
     <div class="modal-background" (click)="toggleModal()"></div>
     <div class="modal-card">
@@ -83,7 +83,7 @@
               <td class="has-text-right text">{{ item.name }}</td>
               <td class="has-text-right text">
                 <input type="text" id="quantity" class="input is-small is-rounded" placeholder="0" [(ngModel)]="item.quantity" #quantity="ngModel"
-                  name="quantity" (keyup)="calculateValue(quantity.value)" (blur)="calculateValue(quantity.value)" pattern="^[0-9]+(([,])*[0-9]+)?$" required>
+                  name="quantity" (keyup)="calculateValue(quantity.value)" (blur)="calculateValue(quantity.value)" pattern="^[0-9]+$" required>
               </td>
               <td class="has-text-right text">{{ item.energy | number: '1.0-1':'pl-PL' }}</td>
               <td class="has-text-right text">{{ item.protein | number: '1.0-1':'pl-PL' }}</td>
@@ -106,7 +106,7 @@
       </section>
       <footer class="modal-card-foot">
         <button class="button is-primary is-rounded" type="submit" (click)="toggleModal()" [disabled]="!form.valid">Dodaj</button>
-        <button class="button is-primary is-rounded" type="reset" (click)="toggleModal()">Anuluj</button>
+        <button class="button is-primary is-rounded" type="button" (click)="toggleModal()">Anuluj</button>
       </footer>
     </div>
   </form>
