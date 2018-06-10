@@ -42,7 +42,6 @@ export class ItemCalcComponent implements OnInit {
         return;
       }
     }
-
     this.sumQuantity = 0;
     this.sumEnergy = 0;
     this.sumProtein = 0;
@@ -52,11 +51,11 @@ export class ItemCalcComponent implements OnInit {
     if (this.saves !== null ) {
       for (const save of this.saves) {
         this.sumQuantity += parseFloat(save.quantity);
-        this.sumEnergy += save.energy;
-        this.sumProtein += save.protein;
-        this.sumFat += save.fat;
-        this.sumCarb += save.carb;
-        this.sumFiber += save.fiber;
+        this.sumEnergy += parseFloat(save.energy);
+        this.sumProtein += parseFloat(save.protein);
+        this.sumFat += parseFloat(save.fat);
+        this.sumCarb += parseFloat(save.carb);
+        this.sumFiber += parseFloat(save.fiber);
       }
     }
     if (this.sumQuantity === 0) {
@@ -74,8 +73,31 @@ export class ItemCalcComponent implements OnInit {
     this.saves.splice(id, 1);
     console.log(this.saves);
     if (this.saves.length === 0) {
+      this.sumQuantity = 0;
+      this.sumEnergy = 0;
+      this.sumProtein = 0;
+      this.sumFat = 0;
+      this.sumCarb = 0;
+      this.sumFiber = 0;
       this.isModalActive = !this.isModalActive;
       this.notify.update('Usunięto wszystkie produkty z kalkulatora', 'info');
+      return;
+    }
+    this.sumQuantity = 0;
+    this.sumEnergy = 0;
+    this.sumProtein = 0;
+    this.sumFat = 0;
+    this.sumCarb = 0;
+    this.sumFiber = 0;
+    if (this.saves !== null ) {
+      for (const save of this.saves) {
+        this.sumQuantity += parseFloat(save.quantity);
+        this.sumEnergy += parseFloat(save.energy);
+        this.sumProtein += parseFloat(save.protein);
+        this.sumFat += parseFloat(save.fat);
+        this.sumCarb += parseFloat(save.carb);
+        this.sumFiber += parseFloat(save.fiber);
+      }
     }
   }
 
