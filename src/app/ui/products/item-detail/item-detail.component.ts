@@ -15,7 +15,8 @@ export class ItemDetailComponent implements OnInit {
   @Input()
   item: Item;
 
-  @SessionStorage({key: 'save'}) save: Array<number> = [];
+  @SessionStorage({key: 'savedPids'}) savedPids: Array<string> = [];
+  @SessionStorage({key: 'savedQuants'}) savedQuants: Array<number> = [];
 
   isModalActive = false;
   currentQuantity: number;
@@ -54,11 +55,12 @@ export class ItemDetailComponent implements OnInit {
     this.item.fat = (numFat * (numInputQuantity / numQuantity));
     this.item.carb = (numCarb * (numInputQuantity / numQuantity));
     this.item.fiber = (numFiber * (numInputQuantity / numQuantity));
-
   }
 
   saveItem() {
-    this.save.push(this.item.quantity);
-    console.log(this.save);
+    this.savedPids.push(this.item.pid);
+    this.savedQuants.push(this.item.quantity);
+    console.log(this.savedPids + ' & ' + this.savedQuants);
   }
+
 }

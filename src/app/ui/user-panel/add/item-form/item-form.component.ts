@@ -73,8 +73,9 @@ export class ItemFormComponent implements OnInit {
     if (this.item.timestamp === undefined) {
       this.getProductAdditionData();
     }
-    this.item.quantity = parseFloat(this.item.quantity.replace(/,/g, '.'));
     this.inputDataIfDoesntExist();
+    this.item.quantity = parseFloat(this.item.quantity.replace(/,/g, '.'));
+    this.item.energy = parseFloat(this.item.energy.replace(/,/g, '.'));
     this.itemService.addProductData(this.item);
     this.notify.update('Pomyślnie dodano produkt', 'success');
 
@@ -123,15 +124,23 @@ export class ItemFormComponent implements OnInit {
   inputDataIfDoesntExist() {
     if (this.item.protein === undefined) {
       this.item.protein = 0;
+    } else {
+      this.item.protein = parseFloat(this.item.protein.replace(/,/g, '.'));
     }
     if (this.item.fat === undefined) {
       this.item.fat = 0;
+    } else {
+      this.item.fat = parseFloat(this.item.fat.replace(/,/g, '.'));
     }
     if (this.item.carb === undefined) {
       this.item.carb = 0;
+    } else {
+      this.item.carb = parseFloat(this.item.carb.replace(/,/g, '.'));
     }
     if (this.item.fiber === undefined) {
       this.item.fiber = 0;
+    } else {
+      this.item.fiber = parseFloat(this.item.fiber.replace(/,/g, '.'));
     }
   }
 

@@ -69,7 +69,6 @@
         <table class="table is-striped is-bordered is-hoverable modal-table">
           <thead>
             <tr>
-              <th>Kategoria</th>
               <th>Nazwa</th>
               <th>Waga [g]</th>
               <th>Energia [kcal]</th>
@@ -81,7 +80,6 @@
           </thead>
           <tbody>
             <tr>
-              <td class="has-text-right text">{{ item.cat.name }}</td>
               <td class="has-text-right text">{{ item.name }}</td>
               <td class="has-text-right text">
                 <input type="text" id="quantity" class="input is-small is-rounded" placeholder="0" [(ngModel)]="item.quantity" #quantity="ngModel"
