@@ -3,12 +3,12 @@ export class Item {
   uid: string;
   cat: any;
   name: string;
-  quantity: string;
-  energy: string;
-  protein: string;
-  fat: string;
-  carb: string;
-  fiber: string;
+  quantity: any;
+  energy: any;
+  protein: any;
+  fat: any;
+  carb: any;
+  fiber: any;
   photo: string;
   photoUrl: any;
   timestamp: number;

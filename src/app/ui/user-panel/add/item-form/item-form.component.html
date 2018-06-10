@@ -11,7 +11,7 @@
       <form #form="ngForm" (ngSubmit)="addProductData()" novalidate>
         <div class="columns is-centered">
           <div class="control column">
-            <label for="cat" class="label required">Kategoria</label>
+            <label for="cat" class="label">Kategoria</label>
             <select type="text" id="cat" class="input is-rounded" title="Kategoria" [(ngModel)]="item.cat" #cat="ngModel" name="cat"
               required>
               <option [ngValue]="undefined" selected disabled hidden class="grey">Wybierz</option>
@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="control column">
-            <label for="name" class="label required">Nazwa</label>
+            <label for="name" class="label">Nazwa</label>
             <input type="text" id="name" class="input is-rounded" placeholder="Nazwa" [(ngModel)]="item.name" #name="ngModel" name="name"
               required>
             <div *ngIf="name.invalid && submitted" class="help is-danger">
@@ -34,42 +34,75 @@
             </div>
           </div>
           <div class="control column">
-            <label for="quantity" class="label required">Waga [g]</label>
+            <label for="quantity" class="label">Waga [g]</label>
             <input type="text" id="quantity" class="input is-rounded" placeholder="0" [(ngModel)]="item.quantity" #quantity="ngModel"
-              name="quantity" required>
+              name="quantity" pattern="^[0-9]+(([,])*[0-9]+)?$" required>
             <div *ngIf="quantity.invalid && submitted" class="help is-danger">
               <div *ngIf="quantity.errors.required">
                 Waga jest wymagana
               </div>
             </div>
+            <div *ngIf="quantity.invalid" class="help is-danger">
+              <div *ngIf="quantity.errors.pattern">
+                Waga musi być liczbą
+              </div>
+            </div>
           </div>
           <div class="control column">
-            <label for="energy" class="label required">Energia [kcal]</label>
+            <label for="energy" class="label">Energia [kcal]</label>
             <input type="text" id="energy" class="input is-rounded" placeholder="0" [(ngModel)]="item.energy" #energy="ngModel" name="energy"
-              required>
+              pattern="^[0-9]+(([,])*[0-9]+)?$" required>
             <div *ngIf="energy.invalid && submitted" class="help is-danger">
               <div *ngIf="energy.errors.required">
                 Energia jest wymagana
+              </div>
+            </div>
+            <div *ngIf="energy.invalid" class="help is-danger">
+              <div *ngIf="energy.errors.pattern">
+                Energia musi być liczbą
               </div>
             </div>
           </div>
         </div>
         <div class="columns is-centered">
           <div class="control column">
-            <label for="protein" class="label required">Białko [g]</label>
-            <input type="text" id="protein" class="input is-rounded" placeholder="0" [(ngModel)]="item.protein" name="protein">
+            <label for="protein" class="label">Białko [g]</label>
+            <input type="text" id="protein" class="input is-rounded" placeholder="0" [(ngModel)]="item.protein" #protein="ngModel" name="protein"
+              pattern="^[0-9]+(([,])*[0-9]+)?$">
+            <div *ngIf="protein.invalid" class="help is-danger">
+              <div *ngIf="protein.errors.pattern">
+                Białko musi być liczbą
+              </div>
+            </div>
           </div>
           <div class="control column">
-            <label for="fat" class="label required">Tłuszcz [g]</label>
-            <input type="text" id="fat" class="input is-rounded" placeholder="0" [(ngModel)]="item.fat" name="fat">
+            <label for="fat" class="label">Tłuszcz [g]</label>
+            <input type="text" id="fat" class="input is-rounded" placeholder="0" [(ngModel)]="item.fat" #fat="ngModel" name="fat" pattern="^[0-9]+(([,])*[0-9]+)?$">
+            <div *ngIf="fat.invalid" class="help is-danger">
+              <div *ngIf="fat.errors.pattern">
+                Tłuszcz musi być liczbą
+              </div>
+            </div>
           </div>
           <div class="control column">
-            <label for="carb" class="label required">Węglowodany [g]</label>
-            <input type="text" id="carb" class="input is-rounded" placeholder="0" [(ngModel)]="item.carb" name="carb">
+            <label for="carb" class="label">Węglowodany [g]</label>
+            <input type="text" id="carb" class="input is-rounded" placeholder="0" [(ngModel)]="item.carb" #carb="ngModel" name="carb"
+              pattern="^[0-9]+(([,])*[0-9]+)?$">
+            <div *ngIf="carb.invalid" class="help is-danger">
+              <div *ngIf="carb.errors.pattern">
+                Węglowodany muszą być liczbą
+              </div>
+            </div>
           </div>
           <div class="control column">
-            <label for="fiber" class="label required">Błonnik [g]</label>
-            <input type="text" id="fiber" class="input is-rounded" placeholder="0" [(ngModel)]="item.fiber" name="fiber">
+            <label for="fiber" class="label">Błonnik [g]</label>
+            <input type="text" id="fiber" class="input is-rounded" placeholder="0" [(ngModel)]="item.fiber" #fiber="ngModel" name="fiber"
+              pattern="^[0-9]+(([,])*[0-9]+)?$">
+            <div *ngIf="fiber.invalid" class="help is-danger">
+              <div *ngIf="fiber.errors.pattern">
+                Błonnik musi być liczbą
+              </div>
+            </div>
           </div>
         </div>
         <br>
@@ -110,7 +143,7 @@
         <hr>
         <div class="column has-text-centered">
           <button class="button is-primary is-rounded" type="submit" (click)='setSubmitted()'>Dodaj</button>
-          <button class="button is-primary is-rounded" (click)='reset()'>Reset</button>
+          <button class="button is-primary is-rounded" type="reset" (click)='reset()'>Reset</button>
         </div>
       </form>
     </div>

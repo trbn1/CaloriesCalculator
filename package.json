@@ -37,6 +37,7 @@
     "angularfire2": "^5.0.0-rc.10",
     "core-js": "^2.5.7",
     "firebase": "^5.0.4",
+    "ngx-store": "^2.0.0",
     "rxjs": "^6.2.0",
     "zone.js": "^0.8.26"
   },
