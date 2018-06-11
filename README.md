@@ -9,7 +9,7 @@ node.js
 ## Prerequisites
 
 ```bash
-npm install -g @angular/cli
+npm install -g @angular/cli firebase-tools
 ```
 
 ## Installation
@@ -20,7 +20,7 @@ npm install
 
 ## Configuration
 
-Create `src/environments/environment.ts` and add your Firebase configuration.
+Create `src/environments/environment.ts` and/or `src/environments/environment.ts` and add your Firebase configuration.
 
 ```ts
 export const environment = {
@@ -38,7 +38,24 @@ export const environment = {
 
 ## Usage
 
+For development:
+
 ```bash
 ng serve
 go to http://localhost:4200
+
+```
+
+or configure firebase with
+
+```bash
+firebase login
+firebase init
+```
+
+and deploy production:
+
+```bash
+npm run-script build
+firebase deploy
 ```
